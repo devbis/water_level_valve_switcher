@@ -123,7 +123,6 @@ void RelayController::loop(bool new_relay_state, bool new_sensor_state)
       if (interrupted_wait_time) {
         snprintf(b, 1024, "- short time %d\n", (int)(wait_until_relay_opened_time_max - interrupted_wait_time));
         Serial.print(b);
-        // Serial.printf("- short time %d\n", (int)(wait_until_relay_opened_time_max - interrupted_wait_time));
       }
       interrupted_wait_time = 0;
     }
@@ -144,7 +143,6 @@ void RelayController::loop(bool new_relay_state, bool new_sensor_state)
       if (interrupted_wait_time) {
         snprintf(b, 1024, "- short time %d\n", (int)(wait_until_relay_opened_time_max - interrupted_wait_time));
         Serial.print(b);
-        // Serial.printf("- short time %d\n", (int)(wait_until_relay_opened_time_max - interrupted_wait_time));
       }
       interrupted_wait_time = 0;
     }
@@ -229,8 +227,6 @@ void RelayController::loop(bool new_relay_state, bool new_sensor_state)
       sensor_state = new_sensor_state ? SENSOR_ON : SENSOR_OFF;
       snprintf(b, 1024, "  - new sensor state: %d\n", new_sensor_state);
       Serial.print(b);
-      // Serial.printf("  - new sensor state: %d\n", new_sensor_state);
-      // log("new sensor state: %d", new_sensor_state);
       last_sensor_time = cur_time;
     }
     break;
@@ -240,8 +236,6 @@ void RelayController::loop(bool new_relay_state, bool new_sensor_state)
       sensor_state = new_sensor_state ? SENSOR_ON : SENSOR_OFF;
       snprintf(b, 1024, "  - new sensor state: %d\n", new_sensor_state);
       Serial.print(b);
-      // Serial.printf("  - new sensor state: %d\n", new_sensor_state);
-      // log("new sensor state: %d", new_sensor_state);
       last_sensor_time = cur_time;
     }
     break;
