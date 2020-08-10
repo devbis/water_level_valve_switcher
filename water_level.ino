@@ -2,6 +2,12 @@
 #include <stdio.h>
 #include <cstdarg>
 
+
+// if defined, use button as capacity level sensor
+#ifndef SENSOR_BUTTON
+// #define SENSOR_BUTTON
+#endif
+
 // STM32 configuration
 const int water_level_pin = PB13;
 const int relay_state_pin = PB14;
@@ -281,6 +287,14 @@ void RelayController::loop(bool new_relay_state, bool new_sensor_state)
 
 RelayController controller = RelayController();
 
+
+#ifdef SENSOR_BUTTON
+#define get_sensor() digitalRead(water_level_pin)
+#else
+#define get_sensor() !digitalRead(water_level_pin)
+#endif
+
+
 void setup()
 {
   // Serial.setDebugOutput(true);
@@ -291,14 +305,19 @@ void setup()
   digitalWrite(trigger_pin, 1);
 
   pinMode(relay_state_pin, INPUT);
-  pinMode(water_level_pin, INPUT);
+#ifdef SENSOR_BUTTON
+  pinMode(water_level_pin, INPUT_PULLDOWN);
+#else
+  pinMode(water_level_pin, INPUT_PULLUP);
+#endif
+  
 
   controller.prev_relay_state = digitalRead(relay_state_pin);
-  controller.prev_sensor_state = digitalRead(water_level_pin);
+  controller.prev_sensor_state = get_sensor();
 }
 
 void loop()
 {
-  controller.loop(digitalRead(relay_state_pin), digitalRead(water_level_pin));
+  controller.loop(digitalRead(relay_state_pin), get_sensor());
   delay(10);
 }
